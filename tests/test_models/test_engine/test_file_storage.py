@@ -127,24 +127,24 @@ class TestFileStorage(unittest.TestCase):
     def test_get(self):
         """Test the get method"""
         state = State()
-        storage = FileStorage()
-        storage.new(state)
-        storage.save()
-        self.assertIsInstance(storage.get(State, state.id), State)
-        self.assertEqual(storage.get(State, state.id).id, state.id)
-        self.assertIsNone(storage.get(State, 12345))
+        models.storage.new(state)
+        models.storage.save()
+        self.assertIsInstance(models.storage.get(State, state.id), State)
+        self.assertEqual(models.storage.get(State, state.id).id, state.id)
+        self.assertIsNone(models.storage.get(State, 12345))
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
         """Get the count of objs"""
-        storage = FileStorage()
+        base_count = models.storage.count()
         new_state = State()
-        storage.new(new_state)
-        storage.save()
-        self.assertEqual(storage.count(), 1)
+        models.storage.new(new_state)
+        models.storage.save()
+        self.assertEqual(models.storage.count(), base_count + 1)
 
+        base_count_user = models.storage.count(User)
         new_user = User()
-        storage.new(new_user)
-        storage.save()
-        self.assertEqual(storage.count(State), 1)
-        self.assertEqual(storage.count(), 2)
+        models.storage.new(new_user)
+        models.storage.save()
+        self.assertNotEqual(models.storage.count(User), base_count_user)
+        self.assertEqual(models.storage.count(), base_count + 2)
