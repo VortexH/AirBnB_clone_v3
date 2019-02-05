@@ -68,7 +68,7 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
+class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
@@ -86,3 +86,43 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Test Count method"""
+        storage_count_all = models.storage.count()
+        new_state = State()
+        new_state.name = "California"
+        models.storage.new(new_state)
+        models.storage.save()
+        self.assertNotEqual(models.storage.count(), storage_count_all)
+
+        user_count = models.storage.count(User)
+        new_user = User()
+        new_user.email = "email@email.com"
+        new_user.password = "password"
+        models.storage.new(new_user)
+        models.storage.save()
+
+        self.assertEqual(models.storage.count(User), user_count + 1)
+        self.assertEqual(models.storage.count(), storage_count_all + 2)
+
+        models.storage.close()
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test get method"""
+        amenity = Amenity()
+        amenity.name = "pool"
+        models.storage.new(amenity)
+        models.storage.save()
+
+        self.assertIsInstance(models.storage.get(Amenity, amenity.id), Amenity)
+        self.assertEqual(
+            models.storage.get(
+                Amenity,
+                amenity.id).id,
+            amenity.id)
+        self.assertIsNone(models.storage.get(Amenity, 12345))
+
+        models.storage.close()
