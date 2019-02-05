@@ -88,39 +88,41 @@ class TestDBStorage(unittest.TestCase):
         """Test that save properly saves objects to file.json"""
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_get(self):
-        """Test the get method"""
-        storage = DBStorage()
-        amenity = Amenity()
-        amenity.name = "pool"
-        storage.new(amenity)
-
-        self.assertIsInstance(storage.get(Amenity, Amenity.id), Amenity)
-        self.assertEqual(storage.get(Amenity, amenity.id).id, amenity.id)
-        self.assertIsNone(storage.get(Amenity, 12345))
-
-
-    @unittest.skipIf(models.storage_t == 'db', "not testing db storage")
     def test_count(self):
-        """Get the count of objs"""
-        storage = DBStorage()
-        storage.create_all()
-        storage_count_all = storage.count()
+        """Test Count method"""
+        storage_count_all = models.storage.count()
         new_state = State()
         new_state.name = "California"
-        storage.new(new_state)
-        storage.save()
-        self.assertNotEqual(storage.count(), storage_count_all)
+        models.storage.new(new_state)
+        models.storage.save()
+        self.assertNotEqual(models.storage.count(), storage_count_all)
 
-"""
-        user_count = storage.count(User)
+        user_count = models.storage.count(User)
         new_user = User()
         new_user.email = "email@email.com"
-        storage.new(new_user)
-        storage.save()
+        new_user.password = "password"
+        models.storage.new(new_user)
+        models.storage.save()
 
-        self.assertEqual(storage.count(User), user_count + 1)
-        self.assertEqual(storage.count(), storage_count_all + 2)
+        self.assertEqual(models.storage.count(User), user_count + 1)
+        self.assertEqual(models.storage.count(), storage_count_all + 2)
 
-        storage.close()
-"""
+        models.storage.close()
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test get method"""
+        amenity = Amenity()
+        amenity.name = "pool"
+        models.storage.new(amenity)
+        models.storage.save()
+
+        self.assertIsInstance(models.storage.get(Amenity, amenity.id), Amenity)
+        self.assertEqual(
+            models.storage.get(
+                Amenity,
+                amenity.id).id,
+            amenity.id)
+        self.assertIsNone(models.storage.get(Amenity, 12345))
+
+        models.storage.close()
