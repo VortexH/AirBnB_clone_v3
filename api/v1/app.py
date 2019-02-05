@@ -4,5 +4,29 @@ Flask app
 """
 
 
+from flask import Flask
 from models import storage
 from api.v1.views import app_views
+from os import getenv
+
+app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.register_blueprint(app_views)
+
+
+
+
+@app.teardown_appcontext
+def cleanup(func):
+    """ This function calls the close method in storage
+        to remove the session
+    """
+
+    storage.close()
+
+if __name__ == "__main__":
+    hbnb_host = getenv("HBNB_API_HOST")
+    hbnb_port = getenv("HBNB_API_PORT")
+    if hbnb_host is None:
+        hbnb_host = "0.0.0.0"
+    app.run(host=hbnb_host, port=hbnb_port, threaded=True)
