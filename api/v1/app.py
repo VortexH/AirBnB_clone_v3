@@ -35,4 +35,4 @@ if __name__ == "__main__":
     hbnb_port = getenv("HBNB_API_PORT")
     if hbnb_host is None:
         hbnb_host = "0.0.0.0"
-    app.run(host=hbnb_host, port=hbnb_port, threaded=True)
+    app.run(host=hbnb_host, port=int(hbnb_port), threaded=True)
