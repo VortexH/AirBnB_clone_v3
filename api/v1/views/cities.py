@@ -14,10 +14,11 @@ import json
 def get_all_cities_of_state(state_id):
     """Retrieves all the cities of a specific state based on id.
     Can use get a post"""
+    state = storage.get("State", state_id)
+    if state is None:
+        abort(404)
+
     if request.method == 'GET':
-        state = storage.get("State", state_id)
-        if state is None:
-            abort(404)
         ret_all_cities = [city.to_dict() for city in state.cities]
         return jsonify(ret_all_cities)
 
