@@ -21,7 +21,6 @@ class User(BaseModel, Base):
         places = relationship('Place', cascade="all, delete, delete-orphan",
                               backref='user')
 
-
     else:
         email = ""
         password = ""
