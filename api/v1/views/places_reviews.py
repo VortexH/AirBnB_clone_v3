@@ -31,7 +31,7 @@ def get_all_reviews_of_place(place_id):
         if json_dict.get('user_id') is None:
             return make_response(jsonify({"error": "Missing user_id"}), 400)
 
-        if storage.get("User", place.user_id) is None:
+        if storage.get("User", json_dict.get('user_id')) is None:
             abort(404)
 
         if json_dict.get('text') is None:
