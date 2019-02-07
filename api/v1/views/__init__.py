@@ -8,3 +8,4 @@ import api.v1.views.users
 import api.v1.views.amenities
 import api.v1.views.cities
 import api.v1.views.places_reviews
+import api.v1.views.places
