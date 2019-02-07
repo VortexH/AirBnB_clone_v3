@@ -11,7 +11,7 @@ import json
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'])
-def deliver_places_or_add():
+def deliver_places_or_add(city_id):
     """ Route function to handle GET and POST requests
 
         GET returns all the places associated with a city
