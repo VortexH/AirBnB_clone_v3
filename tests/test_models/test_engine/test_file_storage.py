@@ -70,6 +70,15 @@ test_file_storage.py'])
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
+
+    @classmethod
+    def tearDown(self):
+        """teardown"""
+        try:
+            os.remove("file.json")
+        except Exception:
+            pass
+
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
         """Test that all returns the FileStorage.__objects attr"""
@@ -113,3 +122,29 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Test the get method"""
+        state = State()
+        models.storage.new(state)
+        models.storage.save()
+        self.assertIsInstance(models.storage.get(State, state.id), State)
+        self.assertEqual(models.storage.get(State, state.id).id, state.id)
+        self.assertIsNone(models.storage.get(State, 12345))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """Get the count of objs"""
+        base_count = models.storage.count()
+        new_state = State()
+        models.storage.new(new_state)
+        models.storage.save()
+        self.assertEqual(models.storage.count(), base_count + 1)
+
+        base_count_user = models.storage.count(User)
+        new_user = User()
+        models.storage.new(new_user)
+        models.storage.save()
+        self.assertNotEqual(models.storage.count(User), base_count_user)
+        self.assertEqual(models.storage.count(), base_count + 2)
