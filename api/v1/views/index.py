@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" Contains routes for app_views """
+"""Defines routes for displaying information about the status of the api
+and a route to display counts of various models"""
 
 from api.v1.views import app_views
 from flask import jsonify
