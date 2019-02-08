@@ -9,6 +9,7 @@ from flask import abort, jsonify, request, make_response
 from api.v1.views import app_views
 import json
 
+
 @app_views.route('/users', methods=['GET', 'POST'])
 def get_all_users():
     """Retrieves all users as json objects. Can use get and post."""
@@ -54,7 +55,7 @@ def get_specific_user(user_id):
         json_dict = request.get_json()
         if json_dict is None:
             return make_response(jsonify({"error": "Not a JSON"}), 400)
-        ignore_keys = ['id','email', 'created_at', 'updated_at']
+        ignore_keys = ['id', 'email', 'created_at', 'updated_at']
         for key, value in json_dict.items():
             if key not in ignore_keys:
                 setattr(user, key, value)
