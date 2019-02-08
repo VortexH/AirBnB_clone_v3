@@ -29,7 +29,7 @@ def cleanup(func):
 
 @app.errorhandler(404)
 def not_found(error):
-    """Returns a json error message instead of an html error page"""
+    """Generic error handler for 404 errors """
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
