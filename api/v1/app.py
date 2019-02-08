@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Flask app
+Creates the flask application, configures app with some settings, adds CORS
+support and defines 2 functions that handle app teardowns and errors
 """
 
 
