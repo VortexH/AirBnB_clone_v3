@@ -31,7 +31,9 @@ def cleanup(func):
 
 @app.errorhandler(404)
 def not_found(error):
-    """Generic error handler for 404 errors """
+    """Generic error handler for 404 errors.
+        Returns a jsonified key:value pair to the stdout.
+    """
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
