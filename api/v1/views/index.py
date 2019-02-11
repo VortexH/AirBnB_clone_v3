@@ -19,7 +19,7 @@ def get_count_each_class():
     """ Gets the count of each class and displays it in JSON format
 
         Returns:
-            "Returns JSON containing each class and a count of each"
+            JSON containing each class and a count of each.
     """
     classes = {
         "amenities": "Amenity",
