@@ -3,6 +3,7 @@
 Creates the view for the State object that handles all default
 RESTful API actions
 '''
+
 from models.city import City
 from models import storage
 from flask import abort, jsonify, request, make_response
