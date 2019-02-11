@@ -21,7 +21,9 @@ CORS(app, resources='/*', origins='0.0.0.0')
 @app.teardown_appcontext
 def cleanup(func):
     """ This function calls the close method in storage
-        to remove the session
+        to remove the session. DBStorage opens a session
+        when working with adding/deleting objects from
+        the database.
     """
 
     storage.close()
