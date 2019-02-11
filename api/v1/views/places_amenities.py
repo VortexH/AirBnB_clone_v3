@@ -12,7 +12,8 @@ import json
 @app_views.route('/places/<place_id>/amenities', methods=['GET'])
 def retrieve_amenity_objects(place_id):
     """ Function that retrieves the list of all Amenity objects of a
-        place
+        place.
+
     """
     single_place = storage.get("Place", place_id)
     if single_place is None:
@@ -29,7 +30,8 @@ def retrieve_amenity_objects(place_id):
         methods=['DELETE', 'POST']
         )
 def specific_amenity(place_id, amenity_id):
-    """ Handles the DELETE and POST HTTP methods
+    """ Handles the DELETE and POST HTTP methods for both
+        DBStorage/FileStorage
 
         DELETE:
             Deletes an amenity object from the db
