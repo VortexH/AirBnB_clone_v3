@@ -48,7 +48,6 @@ def specific_amenity_operations(amenity_id):
         PUT will update a specific amenity with key-value pairs, as long
         as the tables allow that key
 
-
         Args:
             amenity_id: a uuid string assigned to an amenity
 
